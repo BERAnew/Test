@@ -1,1 +1,81 @@
-test 
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Login | BRAM LMS</title>
+  <script src="https://cdn.tailwindcss.com"></script>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700&display=swap" rel="stylesheet">
+  <style>
+    body {
+      font-family: 'Inter', sans-serif;
+    }
+  </style>
+</head>
+<body class="bg-gradient-to-br from-black via-red-900 to-white text-white min-h-screen flex items-center justify-center p-6">
+  <div class="w-full max-w-md bg-white text-black shadow-2xl rounded-2xl p-10 border border-red-200">
+    <div class="flex flex-col items-center mb-6">
+      <div class="bg-red-600 text-white w-16 h-16 flex items-center justify-center rounded-full shadow-lg mb-2 animate-pulse">
+        <span class="text-3xl font-extrabold tracking-wider">B</span>
+      </div>
+      <h1 class="text-3xl font-bold text-red-600 tracking-wide">BRAM LMS Login</h1>
+    </div>
+    <form id="loginForm" class="space-y-5">
+      <div>
+        <label class="block text-sm font-medium text-gray-700 mb-1">Username</label>
+        <input type="text" id="loginUsername" class="w-full p-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-red-500 focus:outline-none" required>
+      </div>
+      <div>
+        <label class="block text-sm font-medium text-gray-700 mb-1">Password</label>
+        <input type="password" id="loginPassword" class="w-full p-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-red-500 focus:outline-none" required>
+      </div>
+      <div>
+        <label class="block text-sm font-medium text-gray-700 mb-1">Department</label>
+        <select id="loginDepartment" class="w-full p-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-red-500 focus:outline-none" required>
+          <option value="">-- Select Department --</option>
+          <option value="ICT">ICT</option>
+          <option value="HR">HR</option>
+          <option value="IE">IE</option>
+          <option value="ENGINEERING">ENGINEERING</option>
+          <option value="CUTTING">CUTTING</option>
+          <option value="STORES">STORES</option>
+          <option value="FG">FG</option>
+        </select>
+      </div>
+      <button type="submit" class="w-full bg-red-600 text-white py-3 rounded-lg hover:bg-red-700 transition-all duration-200 font-semibold">Login</button>
+    </form>
+    <p class="text-center text-sm mt-4">Don't have an account? <a href="register.html" class="text-red-600 font-semibold underline">Register here</a></p>
+  </div>
+  <script>
+    const loginForm = document.getElementById("loginForm");
+
+    // Preload users for testing
+    const defaultUsers = [
+      { username: "student1", password: "1234", department: "ICT" },
+      { username: "student2", password: "abcd", department: "HR" },
+      { username: "student3", password: "pass", department: "ENGINEERING" }
+    ];
+
+    if (!localStorage.getItem("users")) {
+      localStorage.setItem("users", JSON.stringify(defaultUsers));
+    }
+
+    loginForm.addEventListener("submit", function(e) {
+      e.preventDefault();
+      const username = document.getElementById("loginUsername").value.trim();
+      const password = document.getElementById("loginPassword").value.trim();
+      const department = document.getElementById("loginDepartment").value.trim();
+      const users = JSON.parse(localStorage.getItem("users")) || [];
+
+      const found = users.find(u => u.username === username && u.password === password && u.department === department);
+
+      if (found) {
+        localStorage.setItem("loggedUser", JSON.stringify(found));
+        alert("Login successful!");
+        window.location.href = "dashboard.html";
+      } else {
+        alert("Invalid login details!");
+      }
+    });
+  </script>
+</body>
+</html>
